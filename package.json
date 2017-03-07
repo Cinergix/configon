@@ -1,0 +1,17 @@
+{
+  "name": "configon",
+  "version": "0.0.1",
+  "description": "Configuration management based on environment",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cinergix/configon.git"
+  },
+  "keywords": [ "config","configuration","jsconfig","conf","env","environment","variable","settings" ],
+  "author": "Mehdhi <mehdhi@cinergix.com> (http://cinergix.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Cinergix/configon/issues"
+  },
+  "homepage": "https://github.com/Cinergix/configon#readme"
+}
