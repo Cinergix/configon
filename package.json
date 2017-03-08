@@ -1,7 +1,7 @@
 {
   "name": "configon",
   "version": "0.0.1",
-  "description": "Configuration management based on environment",
+  "description": "Configuration management for apps for multiple environments",
   "main": "src/index.js",
   "repository": {
     "type": "git",
