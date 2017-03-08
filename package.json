@@ -1,0 +1,33 @@
+{
+  "name": "configon",
+  "version": "0.0.1",
+  "description": "Configuration management based on environment",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cinergix/configon.git"
+  },
+  "keywords": [
+    "config",
+    "configuration",
+    "jsconfig",
+    "conf",
+    "env",
+    "environment",
+    "variable",
+    "settings"
+  ],
+  "author": "Mehdhi <mehdhi@cinergix.com> (http://cinergix.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Cinergix/configon/issues"
+  },
+  "homepage": "https://github.com/Cinergix/configon#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace-task": "^0.11.0",
+    "gulp-util": "^3.0.8",
+    "quick-local-ip": "^1.0.7"
+  }
+}
