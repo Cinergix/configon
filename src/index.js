@@ -8,19 +8,19 @@ var fs = require( 'fs' ); //importing file system
  *          of configuration for specific environment. The index of the file is denoted 
  *          by positioning {KEY_ENV} in the pattern 
  */
-var EnvConfig = ( configFilePattern ) => {
+var EnvConfig = function ( configFilePattern ) {
     
     /**
      * This is key which is used to identify environment name
      * index from the configuration file pattern.
      */
-    const KEY_ENV = '@@ENV';
+    var KEY_ENV = '@@ENV';
 
     /**
-     * This variable {Map}<Key, Value> holds data of the templates which needs
-     * configurations to be applied 
+     * This variable {Array} consisting the templates and the respective output destination 
+     * which needs configurations to be applied 
      */
-    let templates;
+    var templates;
 
     /**
      * This function reads a json file and return an Object
@@ -54,9 +54,9 @@ var EnvConfig = ( configFilePattern ) => {
      * @returns {String} File path for configuration file
      */
     function getConfigFilePath( env ){
-        let filePath = undefined;
+        var filePath = undefined;
         if( validateConfigFilePattern() && env ) {
-            let pathArray = path.split( KEY_ENV );
+            var pathArray = path.split( KEY_ENV );
             if( pathArray && pathArray.length == 2 ) {
                 filePath = pathArray[0] + env + pathArray[1];
             }
@@ -71,7 +71,7 @@ var EnvConfig = ( configFilePattern ) => {
      * @returns boolean True if it matches the expected pattern
      */
     function validateConfigFilePattern() {
-        let pattern = new RegExp( '^(.\/[a-zA-Z_\-0-9\.]+)+(@@ENV)\.(json)$' );
+        var pattern = new RegExp( '^(.\/[a-zA-Z_\-0-9\.]+)+(@@ENV)\.(json)$' );
         return ( configFilePattern && pattern.test( configFilePattern ) );
     }
 
@@ -80,19 +80,19 @@ var EnvConfig = ( configFilePattern ) => {
         /**
          * This method add details of template file and output location into the template map 
          */
-        addTemplate: ( templateFile, outputFile ) => {
+        addTemplate: function ( templateFile, outputFile ) {
             if( !templates ) {
-                templates = new Map();
+                templates = [];
             }
-            templates.set( templateFile, outputFile );
+            templates[ templateFile ] = outputFile;
         },
 
         /**
          * This method remove details of template file from the template map 
          */
-        removeTemplate: ( templateFile ) => {
+        removeTemplate: function ( templateFile ) {
             if( templates ){
-                return templates.delete( templateFile );
+                delete templates[ templateFile ];
             }
             return false;
         }
