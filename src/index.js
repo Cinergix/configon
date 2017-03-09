@@ -1,4 +1,6 @@
-var fs = require( 'fs' ); //importing file system
+var fs = require( 'fs' ); //file system
+var gulp = require( 'gulp' ); //Gulp itself
+var gutil = require( 'gulp-util' );//Gulp utils
 
 /**
  * This consists functionalities related configuration management for application with 
@@ -41,7 +43,8 @@ var EnvConfig = function ( configFilePattern ) {
      */
     function readConfig( env ) {
         try {
-            return readJSON( getConfigFilePath( env ) );
+            var path = getConfigFilePath( env );
+            return readJSON( path );
         } catch ( err ){
             gutil.log( gutil.colors.red( '=> Could find file for `' + env + '` environment!' ) );
         }
@@ -56,7 +59,7 @@ var EnvConfig = function ( configFilePattern ) {
     function getConfigFilePath( env ){
         var filePath = undefined;
         if( validateConfigFilePattern() && env ) {
-            var pathArray = path.split( KEY_ENV );
+            var pathArray = configFilePattern.split( KEY_ENV );
             if( pathArray && pathArray.length == 2 ) {
                 filePath = pathArray[0] + env + pathArray[1];
             }
@@ -71,11 +74,14 @@ var EnvConfig = function ( configFilePattern ) {
      * @returns boolean True if it matches the expected pattern
      */
     function validateConfigFilePattern() {
-        var pattern = new RegExp( '^(.\/[a-zA-Z_\-0-9\.]+)+(@@ENV)\.(json)$' );
+        var pattern = /^(.\/[a-zA-Z_\-0-9\.]+)+(@@ENV)\.(json)$/;
         return ( configFilePattern && pattern.test( configFilePattern ) );
     }
-
-    return {
+    
+    /**
+     * This object holds the publicly exposed functions of this class
+     */
+    var configon =  {
         
         /**
          * This method add details of template file and output location into the template map 
@@ -85,6 +91,7 @@ var EnvConfig = function ( configFilePattern ) {
                 templates = [];
             }
             templates[ templateFile ] = outputFile;
+            return configon;
         },
 
         /**
@@ -94,9 +101,11 @@ var EnvConfig = function ( configFilePattern ) {
             if( templates ){
                 delete templates[ templateFile ];
             }
-            return false;
+            return configon;
         }
     }
+
+    return configon;
 }
 
 module.exports = EnvConfig;
