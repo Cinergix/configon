@@ -10,12 +10,11 @@ var myip = require( 'quick-local-ip' );
  * multiple environment. It utilizes gulp to achieve the task
  * 
  * @param   {String} configFilePattern The string pattern which identifies the files 
- *          of configuration for specific environment. The index of the file is denoted 
- *          by positioning {KEY_ENV} in the pattern
+ *          of configuration for specific environment. 
  *          E.g. ` ./config/config.@@ENV.json ` 
  *          would be 
-                 ./config/config.dev.json for `dev`  environment
-                 ./config/config.prod.json for `prod` environment
+ *               ./config/config.dev.json for `dev`  environment
+ *               ./config/config.prod.json for `prod` environment
  */
 var EnvConfig = function ( configFilePattern ) {
     
@@ -66,7 +65,7 @@ var EnvConfig = function ( configFilePattern ) {
      */
     function getConfigFilePath( env ){
         var filePath = undefined;
-        if( validateConfigFilePattern() && env ) {
+        if( validateConfigFilePattern() && typeof env === 'string' ) {
             var pathArray = configFilePattern.split( KEY_ENV );
             if( pathArray && pathArray.length == 2 ) {
                 filePath = pathArray[0] + env + pathArray[1];
