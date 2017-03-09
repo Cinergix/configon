@@ -8,7 +8,11 @@ var gutil = require( 'gulp-util' );//Gulp utils
  * 
  * @param   {String} configFilePattern The string pattern which identifies the files 
  *          of configuration for specific environment. The index of the file is denoted 
- *          by positioning {KEY_ENV} in the pattern 
+ *          by positioning {KEY_ENV} in the pattern
+ *          E.g. ` ./config/config.@@ENV.json ` 
+ *          would be 
+                 ./config/config.dev.json for `dev`  environment
+                 ./config/config.prod.json for `prod` environment
  */
 var EnvConfig = function ( configFilePattern ) {
     
