@@ -78,7 +78,7 @@ var EnvConfig = function ( configFilePattern ) {
      * @returns boolean True if it matches the expected pattern
      */
     function validateConfigFilePattern() {
-        var pattern = /^(.\/[a-zA-Z_\-0-9\.]+)+(@@ENV)\.(json)$/;
+        var pattern = /^\.\/([a-zA-Z_\-0-9.\/]+)+@@ENV.*?\.json$/;
         return ( configFilePattern && pattern.test( configFilePattern ) );
     }
     
