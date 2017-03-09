@@ -23,8 +23,9 @@ var EnvConfig = function ( configFilePattern ) {
     var KEY_ENV = '@@ENV';
 
     /**
-     * This variable {Array} consisting the templates and the respective output destination 
+     * This variable {Array} consisting of objects wih templates and the respective output destination
      * which needs configurations to be applied 
+     * E.g. [ { template: './conf-template.js', dest: './conf.js' }] 
      */
     var templates;
 
@@ -94,7 +95,7 @@ var EnvConfig = function ( configFilePattern ) {
             if( !templates ) {
                 templates = [];
             }
-            templates[ templateFile ] = outputFile;
+            templates.push( { 'template' :  templateFile,  'dest' : outputFile } );
             return configon;
         },
 
@@ -103,7 +104,9 @@ var EnvConfig = function ( configFilePattern ) {
          */
         removeTemplate: function ( templateFile ) {
             if( templates ){
-                delete templates[ templateFile ];
+                templates = templates.filter( function( obj ) {
+                    return obj.template !== templateFile;
+                });
             }
             return configon;
         }
