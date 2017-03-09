@@ -142,13 +142,13 @@ var EnvConfig = function ( configFilePattern ) {
          * This function builds the config and apply all the changes to templates and export them in 
          * to the required location
          */
-        build: ( env, ipAddress = undefined ) => {
+        build: function ( env, ipAddress = undefined ) {
             gutil.log( gutil.colors.green( 'Looking for environment configuration...' ) );
     
             ipAddress = ipAddress || myip.getLocalIP4() || 'localhost';
 
             // (1) Load Environment configuration 
-            let config = readConfig( env );
+            var config = readConfig( env );
             
             // (2) validate the environment:
             if (!config) {
@@ -157,13 +157,13 @@ var EnvConfig = function ( configFilePattern ) {
                 gutil.log( gutil.colors.green( 'Loading `' + env + '` environment...') );
 
                 // (3) Add additional (dynamic) constants.
-                let packageJson = readJSON( './package.json' );;
+                var packageJson = readJSON( './package.json' );;
                 config['APP_NAME'] = packageJson.name;
                 config['VERSION'] = packageJson.version;
                 config['BUILD_DATE'] = ( new Date() ).toJSON();
                 
                 // (4) Replace IP Values for @@MY_IP_ADDRESS keys in JSON
-                for ( let key in config ) {
+                for ( var key in config ) {
                     if ( config.hasOwnProperty( key ) ) {
                         if ( typeof config[ key ] === 'string' ) {
                             config[ key ] = config[ key ].replace( '@@MY_IP_ADDRESS', ipAddress );
@@ -172,7 +172,7 @@ var EnvConfig = function ( configFilePattern ) {
                 }
 
                 // (5) Construct replacement patterns, ex: replace @@KEYS with real values.
-                let patterns = Object.keys( config ).map(  key => {
+                var patterns = Object.keys( config ).map(  function ( key ) {
                     gutil.log( gutil.colors.green( '=> ' + key + ': ' + config[ key ] ) );
                     return { match: key, replacement: config[ key ] };
                 });
