@@ -17,6 +17,16 @@ var myip = require( 'quick-local-ip' );
  *               ./config/config.prod.json for `prod` environment
  */
 var EnvConfig = function ( configFilePattern ) {
+
+    const ARG_ENVIRONMENT_FLAG = '--env';
+    const ARG_DELIMITER = ':';
+    const ARG_IP_FLAG = '--ip';
+
+    /**
+     * This variable holds default environment for configuration
+     * it will be used if any environment is not passed
+     */
+    var defaultEnvironment = 'dev';
     
     /**
      * This is key which is used to identify environment name
@@ -86,8 +96,7 @@ var EnvConfig = function ( configFilePattern ) {
     }
 
     /**
-     * This function generates the files after applying all configuration and 
-     * 
+     * This function generates the files after applying all configuration
      * @param patterns Replacement patterns
      */
     function generateConfiguredFiles( patterns ) {
@@ -107,6 +116,40 @@ var EnvConfig = function ( configFilePattern ) {
         } else {
             gutil.log( gutil.colors.red( '=> Templates missing. Please add a template.' ) );
         }
+    }
+
+    /**
+     * This function retrieves the current environment from arguments 
+     * or from node environment
+     * @returns {String} environment name
+     */
+    function getCurrentEnvironment() {
+        //Retrieving env from NODE_ENV if retrieving from arguments fail
+        return getArgumentValue( ARG_ENVIRONMENT_FLAG ) || process.env.NODE_ENV;
+    }
+
+    /**
+     * This function retrieves the value passed with argument flags separated with
+     * {@link ARG_DELIMITER}
+     * @param argumentFlag  Flagged argument name
+     * eg.  gulp config --env:dev
+     *          "--env" is the flag return "dev"
+     * @returns {String} Respective value for the argument flag passed
+     */
+    function getArgumentValue( argumentFlag ) {
+        var value = undefined;
+        if( process && process.argv ){
+            //Retreiving args passed while running the command
+            var argumentsPassed = process.argv;
+            argumentsPassed.forEach( function ( argument ) {
+                if ( argument.includes( argumentFlag ) ) {
+                    value = argument.split( ARG_DELIMITER )[1];
+                }
+            }, this );
+        } else {
+            gutil.log( gutil.colors.red( '=> Could not access parameters passed while running the command.' ) );
+        }
+        return value;
     }
     
     /**
@@ -140,11 +183,14 @@ var EnvConfig = function ( configFilePattern ) {
         /**
          * This function builds the config and apply all the changes to templates and export them in 
          * to the required location
+         * @param environment Environment name 
          */
-        build: function ( env, ipAddress = undefined ) {
+        build: function ( environment = undefined, ipAddress = undefined ) {
             gutil.log( gutil.colors.green( 'Looking for environment configuration...' ) );
-    
-            ipAddress = ipAddress || myip.getLocalIP4() || 'localhost';
+            
+            var env = getCurrentEnvironment() || environment || defaultEnvironment;
+            //This function retrieves the ip Address from arguments or picks from the system
+            ipAddress = getArgumentValue( ARG_IP_FLAG ) || ipAddress || myip.getLocalIP4() || 'localhost';
 
             // (1) Load Environment configuration 
             var config = readConfig( env );
@@ -180,9 +226,18 @@ var EnvConfig = function ( configFilePattern ) {
                 generateConfiguredFiles( patterns );
 
             }
-
             return configon;
+        },
+
+        /**
+         * This function sets default environment for configuration
+         * @param env Environment name
+         */
+        setDefaultEnv: function( env ) {
+            defaultEnvironment = env;
+            return configon
         }
+
     }
 
     return configon;
