@@ -1,0 +1,6 @@
+{
+    "ENV": 1,
+    "API_URL": "https://localhost:8080",
+    "LOG_LEVEL": "debug",
+    "APP_DOMAIN": "localhost"
+}

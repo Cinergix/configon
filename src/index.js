@@ -106,7 +106,7 @@ var EnvConfig = function ( configFilePattern ) {
 
             }, this );
         } else {
-            gutil.log( gutil.colors.red( '=> Templates missing. Please add template.' ) );
+            gutil.log( gutil.colors.red( '=> Templates missing. Please add a template.' ) );
         }
     }
     

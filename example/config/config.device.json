@@ -1,0 +1,6 @@
+{
+    "ENV": 3,
+    "API_URL": "https://@@MY_IP_ADDRESS:8080",
+    "LOG_LEVEL": "debug",
+    "APP_DOMAIN": "@@MY_IP_ADDRESS"
+}
