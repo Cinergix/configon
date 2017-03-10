@@ -206,6 +206,7 @@ var EnvConfig = function ( configFilePattern ) {
                 config['APP_NAME'] = packageJson.name;
                 config['VERSION'] = packageJson.version;
                 config['BUILD_DATE'] = ( new Date() ).toJSON();
+                config['ENV'] = env;
                 
                 // (4) Replace IP Values for @@MY_IP_ADDRESS keys in JSON
                 for ( var key in config ) {

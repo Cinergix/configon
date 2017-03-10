@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<widget>
+  <preference name="name" value="@@APP_NAME"/>
+  <preference name="version" value="@@VERSION"/>
+  <preference name="build" value="@@BUILD_DATE"/>
+  <preference name="env" value="@@ENV"/>
+  <preference name="server-url" value="@@API_URL"/>
+  <preference name="domain" value="@@APP_DOMAIN"/>
+  <preference name="log-level" value="@@LOG_LEVEL"/>
+</widget>
