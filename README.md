@@ -148,6 +148,7 @@ You can add the following keys in your configuration file to automatically fetch
 1. `@@APP_NAME` - Application Name
 2. `@@VERSION`  - Application version
 3. `@@BUILD_DATE` - Application build date
+4. `@@ENV` - Environment name
 
 Example template.ts
 
@@ -167,6 +168,11 @@ Example template.ts
      * Build date of the app
      */
     BUILD_DATE : '@@BUILD_DATE',
+    
+    /**
+     * Build date of the app
+     */
+    ENV : '@@ENV',
     ...
 
 ```
@@ -202,6 +208,7 @@ setDefaultEnv               | env:String                                        
 
 Key             | description
 ----------------|--------------------------------------------------
+@@ENV           | Name of the environment 
 @@APP_NAME      | Name of the application 
 @@APP_VERSION   | Version of the application 
 @@BUILD_DATE    | Build date of the current build 
