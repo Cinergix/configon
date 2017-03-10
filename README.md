@@ -73,9 +73,6 @@ In Windows:
 
 `$ SET NODE_ENV=dev`
 
-In Windows PowerShell:
-
-`$ env:NODE_ENV=dev`
 
 ### Setting custom IP Address
 
