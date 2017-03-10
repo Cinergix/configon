@@ -17,14 +17,11 @@
 
 If you want to use gulp on your CLI install gulp globally
 
-```
-npm install gulp -g
-```
+$ `npm install gulp -g`
+
 Install Configon
 
-```
-npm install configon --save-dev
-```
+$ `npm install configon --save-dev`
 
 ## Usage
 
@@ -49,11 +46,11 @@ You can pass parameters with arguments through CLI or also set NODE_ENV environm
 
 Following examples assumes that your gulp task is `config`
 
-`$ gulp config --env:< environment >`
+$ `gulp config --env:< environment >`
 
-`$ gulp config --env:dev`
+$ `gulp config --env:dev`
 
-`$ gulp config --env:prod`
+$ `gulp config --env:prod`
 
 ### Using Environment variables
 
@@ -61,26 +58,26 @@ You can set environment variable with the identifier `NODE_ENV`
 
 For just one run (from the unix shell prompt):
 
-`$ NODE_ENV=dev gulp config`
+$ `NODE_ENV=dev gulp config`
 
 More permanently:
 
-`$ export NODE_ENV=dev`
+$ `export NODE_ENV=dev`
 
-`$ gulp config`
+$ `gulp config`
 
 In Windows:
 
-`$ SET NODE_ENV=dev`
+$ `SET NODE_ENV=dev`
 
 
 ### Setting custom IP Address
 
 This is useful if you are developing a mobile application and you want to point you app to a custom IP Address in your LAN
 
-`$ gulp config --ip:< IP Address >`
+$ `gulp config --ip:< IP Address >`
 
-`$ gulp config --ip:192.168.0.100 --env:device`
+$ `gulp config --ip:192.168.0.100 --env:device`
 
 
 
