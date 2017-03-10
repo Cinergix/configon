@@ -18,9 +18,9 @@ var myip = require( 'quick-local-ip' );
  */
 var EnvConfig = function ( configFilePattern ) {
 
-    const ARG_ENVIRONMENT_FLAG = '--env';
-    const ARG_DELIMITER = ':';
-    const ARG_IP_FLAG = '--ip';
+    var ARG_ENVIRONMENT_FLAG = '--env';
+    var ARG_DELIMITER = ':';
+    var ARG_IP_FLAG = '--ip';
 
     /**
      * This variable holds default environment for configuration
@@ -159,6 +159,8 @@ var EnvConfig = function ( configFilePattern ) {
         
         /**
          * This method add details of template file and output location into the template map 
+         * @param templateFile Path of the template file
+         * @param outputFile Path of the output file
          */
         addTemplate: function ( templateFile, outputFile ) {
             if( !templates ) {
@@ -169,7 +171,8 @@ var EnvConfig = function ( configFilePattern ) {
         },
 
         /**
-         * This method remove details of template file from the template map 
+         * This method remove details of template file from the template map
+         * @param templateFile Path of the template file 
          */
         removeTemplate: function ( templateFile ) {
             if( templates ){
@@ -183,7 +186,8 @@ var EnvConfig = function ( configFilePattern ) {
         /**
          * This function builds the config and apply all the changes to templates and export them in 
          * to the required location
-         * @param environment Environment name 
+         * @param environment Environment name
+         * @param ipAddress Custom IP Address
          */
         build: function ( environment = undefined, ipAddress = undefined ) {
             gutil.log( gutil.colors.green( 'Looking for environment configuration...' ) );
