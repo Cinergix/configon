@@ -12,10 +12,16 @@ const config = new EnvConfig( './config/config.@@ENV.json' )
 
 /**
  * Testing environment based config example
+ * Example commands
+ * gulp config --env:dev - sets custom environment
+ * gulp config --ip:192.168.0.45 - sets custom ip
+ * 
+ * or TRY setting environment variable
+ *  ( SET | export ) NODE_ENV=dev 
  */
 gulp.task('config', function() {
     
-    var env = 'dev';
-    config.build( env );
+    var defaultEnv = 'dev';
+    config.build( defaultEnv );
     
 });
