@@ -23,7 +23,7 @@
     "url": "https://github.com/Cinergix/configon/issues"
   },
   "homepage": "https://github.com/Cinergix/configon#readme",
-  "devDependencies": {
+  "dependencies": {
     "gulp": "^3.9.1",
     "gulp-rename": "^1.2.2",
     "gulp-replace-task": "^0.11.0",

@@ -1,5 +1,6 @@
 node_modules
 bin
+example
 
 CHANGELOG.md
 gulpfile.js

@@ -1,6 +1,9 @@
 var fs = require( 'fs' ); //file system
 var gulp = require( 'gulp' ); //Gulp itself
 var gutil = require( 'gulp-util' );//Gulp utils
+var replace = require( 'gulp-replace-task' );//gulp plugin replace data in a file
+var rename = require( 'gulp-rename' );//rename files
+var myip = require( 'quick-local-ip' );
 
 /**
  * This consists functionalities related configuration management for application with 
@@ -78,8 +81,32 @@ var EnvConfig = function ( configFilePattern ) {
      * @returns boolean True if it matches the expected pattern
      */
     function validateConfigFilePattern() {
-        var pattern = /^(.\/[a-zA-Z_\-0-9\.]+)+(@@ENV)\.(json)$/;
+        var pattern = /^\.\/([a-zA-Z_\-0-9.\/]+)+@@ENV.*?\.json$/;
         return ( configFilePattern && pattern.test( configFilePattern ) );
+    }
+
+    /**
+     * This function generates the files after applying all configuration and 
+     * 
+     * @param patterns Replacement patterns
+     */
+    function generateConfiguredFiles( patterns ) {
+        if ( templates && templates.length > 0 ) {
+            templates.forEach( function ( templateObj ) {
+                var templateFile = templateObj.template.trim();
+                var templateOutput = templateObj.dest.trim();
+                var index = templateOutput.lastIndexOf( '/' );//index where filename starts 
+                var dest = templateOutput.substring( 0, index );//targeted destination of the file
+                var fileName = templateOutput.substring( index + 1 );
+                gulp.src( templateFile )
+                    .pipe( replace( { patterns : patterns } ) )
+                    .pipe( rename( fileName ) )
+                    .pipe( gulp.dest( dest ) );
+
+            }, this );
+        } else {
+            gutil.log( gutil.colors.red( '=> Templates missing. Please add a template.' ) );
+        }
     }
     
     /**
@@ -107,6 +134,54 @@ var EnvConfig = function ( configFilePattern ) {
                     return obj.template !== templateFile;
                 });
             }
+            return configon;
+        },
+
+        /**
+         * This function builds the config and apply all the changes to templates and export them in 
+         * to the required location
+         */
+        build: function ( env, ipAddress = undefined ) {
+            gutil.log( gutil.colors.green( 'Looking for environment configuration...' ) );
+    
+            ipAddress = ipAddress || myip.getLocalIP4() || 'localhost';
+
+            // (1) Load Environment configuration 
+            var config = readConfig( env );
+            
+            // (2) validate the environment:
+            if (!config) {
+                gutil.log( gutil.colors.red( '=> Could not load `' + env + '` environment!' ) );
+            } else {
+                gutil.log( gutil.colors.green( 'Loading `' + env + '` environment...') );
+
+                // (3) Add additional (dynamic) constants.
+                var packageJson = readJSON( './package.json' );;
+                config['APP_NAME'] = packageJson.name;
+                config['VERSION'] = packageJson.version;
+                config['BUILD_DATE'] = ( new Date() ).toJSON();
+                config['ENV'] = env;
+                
+                // (4) Replace IP Values for @@MY_IP_ADDRESS keys in JSON
+                for ( var key in config ) {
+                    if ( config.hasOwnProperty( key ) ) {
+                        if ( typeof config[ key ] === 'string' ) {
+                            config[ key ] = config[ key ].replace( '@@MY_IP_ADDRESS', ipAddress );
+                        }
+                    }
+                }
+
+                // (5) Construct replacement patterns, ex: replace @@KEYS with real values.
+                var patterns = Object.keys( config ).map(  function ( key ) {
+                    gutil.log( gutil.colors.green( '=> ' + key + ': ' + config[ key ] ) );
+                    return { match: key, replacement: config[ key ] };
+                });
+
+                // (6) Generate files
+                generateConfiguredFiles( patterns );
+
+            }
+
             return configon;
         }
     }
