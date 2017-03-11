@@ -15,7 +15,14 @@
     "env",
     "environment",
     "variable",
-    "settings"
+    "settings",
+    "gulp config", 
+    "app config",
+    "config manager",
+    "configuration management",
+    "setup", 
+    "configure",
+    "node config"
   ],
   "author": "Mehdhi <mehdhi@cinergix.com> (http://cinergix.com/)",
   "license": "MIT",
