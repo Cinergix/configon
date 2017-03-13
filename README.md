@@ -15,22 +15,20 @@
 
 Install Configon
 
-$ `npm install configon --save-dev`
+```
+npm install configon --save-dev
+```
 
 ## Usage
 
 You can simply add the following code on to your gulp file and start using it
 ```
-var EnvConfig = require('configon');
+var EnvConfig = require( 'configon' );
 
-const config = new EnvConfig( './example/config/config.@@ENV.json' )
-            .addTemplate( './example/config/template.ts','./bin/config.ts' )
-            .addTemplate( './example/config/template.xml','./bin/config.xml' );
-
-gulp.task('config', function() {
-    var defaultEnv = 'dev';
-    config.build( defaultEnv );
-});
+const config = new EnvConfig( './config/config.@@ENV.json' )
+            .addTemplate( './config/template.ts','./app-config.ts' )
+            .addTemplate( './config/template.xml','./bin/config.xml' )
+            .build( 'development' );
 
 ```
 
