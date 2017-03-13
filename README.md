@@ -1,8 +1,6 @@
 # Configon
 
-> Configuration management for apps for multiple environments.
-
-<Long description should be filled here>
+> Gulp tool for generating configuration files for multiple environments on your app. Simply lets you generate templated files based on a specific environment config.
 
 ## Table of Contents
 
@@ -15,17 +13,13 @@
 
 ## Getting started
 
-If you want to use gulp on your CLI install gulp globally
-
-$ `npm install gulp -g`
-
 Install Configon
 
 $ `npm install configon --save-dev`
 
 ## Usage
 
-You can simply add the following code on to your gulp and start using it
+You can simply add the following code on to your gulp file and start using it
 ```
 var EnvConfig = require('configon');
 
