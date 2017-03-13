@@ -204,15 +204,15 @@ removeTemplate              | templateFile:String                               
 setDefaultEnv               | env:String                                                    | Sets default environment for configuration
 
 
-### Available Keys
+### Following keys can be used in the templates to fill data
 
 Key             | description
 ----------------|--------------------------------------------------
 @@ENV           | Name of the environment 
-@@APP_NAME      | Name of the application 
-@@VERSION   | Version of the application 
-@@BUILD_DATE    | Build date of the current build 
-@@MY_IP_ADDRESS | Your local IP Address  
+@@APP_NAME      | Name of the application retrieved from package.json
+@@VERSION       | Version of the application retrieved from package.json
+@@BUILD_DATE    | It takes current system date/time during the build as the build date 
+@@MY_IP_ADDRESS | Your local IP Address of the system or the value passed as parameters
 
 
 ## Contribute
