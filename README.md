@@ -210,7 +210,7 @@ Key             | description
 ----------------|--------------------------------------------------
 @@ENV           | Name of the environment 
 @@APP_NAME      | Name of the application 
-@@APP_VERSION   | Version of the application 
+@@VERSION   | Version of the application 
 @@BUILD_DATE    | Build date of the current build 
 @@MY_IP_ADDRESS | Your local IP Address  
 
