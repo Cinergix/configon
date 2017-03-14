@@ -2,18 +2,18 @@
 
 > Gulp tool for generating configuration files for multiple environments on your app. Simply lets you generate templated files based on a specific environment config.
 
+
+
 ## Table of Contents
 
-- [Getting started](#getting-started)
+- [Install](#install)
 - [Usage](#usage)
 - [API](#api)
 - [Contribute](#contribute)
 - [License](#license)
 
 
-## Getting started
-
-Install Configon
+## Install
 
 ```
 npm install configon --save-dev
@@ -21,70 +21,29 @@ npm install configon --save-dev
 
 ## Usage
 
-You can simply add the following code on to your gulp file and start using it
+Configon uses configuration value files and template files to generate the configuration required by applying all configuration values to the templates for the respective environment. 
+
+Given below is a sample implementation of Configon, please take a look at the example folder for a detailed example.
 ```
-var EnvConfig = require( 'configon' );
+var Configon = require( 'configon' );
 
-const config = new EnvConfig( './config/config.@@ENV.json' )
-            .addTemplate( './config/template.ts','./app-config.ts' )
-            .addTemplate( './config/template.xml','./bin/config.xml' )
-            .build( 'development' );
+const config = new Configon( './path-to-config-files/config.@@ENV.json' )
+            .addTemplate( './path-to-template-files/template1.ts','./output-dir/output-filename1.ts' )
+            .addTemplate( './path-to-template-files/template2.xml','./output-dir/output-filename2.xml' )
+            .build( 'environment-name' );
 
 ```
 
-### Building your configuration for your environment
+The key @@ENV denotes the environment name, The value for @@ENV on the filename will be used as the environment name. 
 
-You can pass parameters with arguments through CLI or also set NODE_ENV environment variable or pass a parameter when you call build in your gulp task.
+### Setting up your templates and environment configurations
 
-Following examples assumes that your gulp task is `config`
+Configurations are stored as key, value pairs in configuration file specific for an environment and the key is used with the "@@" symbol in the front in template files which will be replaced with respective value while configuration is built.
 
-$ `gulp config --env:< environment >`
-
-$ `gulp config --env:dev`
-
-$ `gulp config --env:prod`
-
-### Using Environment variables
-
-You can set environment variable with the identifier `NODE_ENV`
-
-For just one run (from the unix shell prompt):
-
-$ `NODE_ENV=dev gulp config`
-
-More permanently:
-
-$ `export NODE_ENV=dev`
-
-$ `gulp config`
-
-In Windows:
-
-$ `SET NODE_ENV=dev`
+NOTE: *All text based files can be used as a template*
 
 
-### Setting custom IP Address
-
-This is useful if you are developing a mobile application and you want to point you app to a custom IP Address in your LAN
-
-$ `gulp config --ip:< IP Address >`
-
-$ `gulp config --ip:192.168.0.100 --env:device`
-
-
-
-### Setting up your templates and environment configuration values
-
-
-This section tells you how to change configuration for environment 
-
-Configon uses gulp to change the configuration.
-It generates a file from a template file applying all configuration values from the configuration (value) files. It matches the key in template file with values in configuration file.
-
-NOTE: *Any text based files can be used as a template*
-
-
-Example template.ts
+Example template1.ts
 
 
     /**
@@ -104,7 +63,7 @@ Example template.ts
 
 	}
      
-config.json
+config.development.json
 
 
     {
@@ -113,7 +72,7 @@ config.json
 	}
 
 
-output.ts
+output-filename1.ts
 
 
     /**
@@ -133,59 +92,61 @@ output.ts
 
 	}
 
-### Getting your Application name, version and build date into configuration.
+Following keys are available on configon and can be used in the templates to fill data
 
-You can add the following keys in your configuration file to automatically fetch the application name and version from package.json and build date from the system.
+Key             | Description
+----------------|--------------------------------------------------
+@@ENV           | Name of the environment which is taken from the file name 
+@@APP_NAME      | Name of the application retrieved from package.json
+@@VERSION       | Version of the application retrieved from package.json
+@@BUILD_DATE    | It takes current system date/time during the build as the build date 
+@@MY_IP_ADDRESS | Your local IP Address of the system or the value passed as parameters, if retrieving IP Address fails `localhost` will used.
 
-1. `@@APP_NAME` - Application Name
-2. `@@VERSION`  - Application version
-3. `@@BUILD_DATE` - Application build date
-4. `@@ENV` - Environment name
 
-Example template.ts
+### Building your configuration for your environment
 
+You can pass parameters with arguments through CLI or also set NODE_ENV environment variable or pass a parameter when you call build in your gulp task.
+
+Following examples assumes that your gulp task is `config`
 ```
-    ...
-    /**
-     * Name of the app
-     */
-    APP_NAME : '@@APP_NAME',
-
-    /**
-     * Version of the app
-     */
-    VERSION : '@@VERSION',
-
-    /**
-     * Build date of the app
-     */
-    BUILD_DATE : '@@BUILD_DATE',
-    
-    /**
-     * Build date of the app
-     */
-    ENV : '@@ENV',
-    ...
-
+    gulp config --env:< environment >
 ```
-
-### Using your local IP Address into your configuration.
-
-You can add the key "@@MY_IP_ADDRESS" to your configuration to load your local IP Address.
 
 Eg. 
+```
+    gulp config --env:development
+```
+### Using Environment variables
 
-	API_URL : 'http://@@MY_IP_ADDRESS:8080'
-	
-key "@@MY_IP_ADDRESS" will replaced with Custom IP Address, if retrieving IP Address fails `localhost` will used.
+You can set environment variable with the identifier `NODE_ENV`
 
-NOTE:
-* The local IP Address of the system  if fetched as default.
-* Custom IP Address can be set manually by passing arguments in the CLI.  
+For just one run (from the unix shell prompt):
+```
+    NODE_ENV=development gulp config
+```
+More permanently:
+```
+    export NODE_ENV=development
+
+    gulp config
+```
+In Windows:
+```
+    SET NODE_ENV=production
+```
+
+
+### Setting custom IP Address
+
+This is useful if you are developing a mobile application and you want to point you app to a custom IP Address in your LAN
+
+```
+    gulp config --ip:< IP Address >`
+
+    gulp config --ip:192.168.0.100 --env:device`
+```
 
 ## API
-
-### Methods
 
 name                        | arguments                                                     | description
 ----------------------------|---------------------------------------------------------------|------------
@@ -195,16 +156,6 @@ addTemplate                 | templateFile:String <br> outputFile:String        
 removeTemplate              | templateFile:String                                           | Removes detail of template file from the list of templates  
 setDefaultEnv               | env:String                                                    | Sets default environment for configuration
 
-
-### Following keys can be used in the templates to fill data
-
-Key             | description
-----------------|--------------------------------------------------
-@@ENV           | Name of the environment 
-@@APP_NAME      | Name of the application retrieved from package.json
-@@VERSION       | Version of the application retrieved from package.json
-@@BUILD_DATE    | It takes current system date/time during the build as the build date 
-@@MY_IP_ADDRESS | Your local IP Address of the system or the value passed as parameters
 
 
 ## Contribute
