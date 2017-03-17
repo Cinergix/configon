@@ -1,0 +1,5 @@
+{
+    "API_URL": "https://api.test.com",
+    "LOG_LEVEL": "info",
+    "APP_DOMAIN": "test.com"
+}
