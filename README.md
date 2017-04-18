@@ -135,6 +135,11 @@ In Windows:
     SET NODE_ENV=production
 ```
 
+### Priorities of obtaining environment values
+
+1. Environment values obtained through arguments passed in CLI e.g `gulp config --env:development`
+2. Environment set on the `NODE_ENV` environment variable
+3. Environment passed as parameter when calling build function
 
 ### Setting custom IP Address
 
